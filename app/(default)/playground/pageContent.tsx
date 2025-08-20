@@ -12,6 +12,7 @@ import {
 } from '@/app/utils/mitter';
 import React, { useEffect } from 'react';
 import ChineseAudio from '@/app/(default)/playground/widgets/chineseAudio';
+import VerifySubtitles from '@/app/(default)/playground/widgets/verifySubtitles';
 import ConnectAudio from '@/app/(default)/playground/widgets/connectAudio';
 import dynamic from 'next/dynamic';
 
@@ -65,16 +66,21 @@ const PageContent = () => {
     },
     {
       key: '3',
+      label: '校验字幕',
+      children: <VerifySubtitles onFinish={onNextStep} videoId={state.videoId} />,
+    },
+    {
+      key: '4',
       label: '中文字幕配音',
       children: <ChineseAudio onFinish={onNextStep} videoId={state.videoId} />,
     },
     {
-      key: '4',
+      key: '5',
       label: '语音连接',
       children: <ConnectAudio onFinish={onNextStep} videoId={state.videoId} />,
     },
     {
-      key: '5',
+      key: '6',
       label: '渲染预览视频',
       children: <RenderVideo videoId={state.videoId} />,
     },

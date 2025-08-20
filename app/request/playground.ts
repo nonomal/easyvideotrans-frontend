@@ -71,8 +71,40 @@ export const translateSrt = (data: ITranslateSrtIProp) => {
   );
 };
 export const generateTTS = (data: IGenerateTTSProp) => {
-  return axios.post<{ video_id: string; message: string }>(
+  // Transform the data to match backend expectations
+  const requestData = {
+    video_id: data.video_id,
+    tts_vendor: data.tts_vendor,
+    tts_character: data.tts_character,
+    ...(data.tts_params && { tts_params: data.tts_params }),
+  };
+  
+  return axios.post<{ video_id: string; message: string; duration?: number }>(
     REQUEST_ENUM.generateTTS,
-    data,
+    requestData,
+  );
+};
+
+export const downloadSubtitles = async (video_id: string): Promise<string> => {
+  try {
+    const response = await axios.get(`/api/subtitles/${video_id}`, {
+      responseType: 'text',
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Failed to download subtitles:', error);
+    throw error;
+  }
+};
+
+export const uploadSubtitles = (video_id: string, content: string) => {
+  return axios.post<{ video_id: string; message: string }>(
+    `/api/subtitles/${video_id}`,
+    { content },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
   );
 };

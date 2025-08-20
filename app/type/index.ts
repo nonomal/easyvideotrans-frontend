@@ -10,4 +10,9 @@ export interface IGenerateTTSProp {
   tts_vendor: string;
   tts_key: string;
   tts_character: string;
+  tts_params?: {
+    voice?: string;
+    model?: string;
+    instructions?: string;
+  };
 }
